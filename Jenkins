@@ -1,0 +1,37 @@
+pipeline
+{
+    agent any
+    stages
+    { 
+       stage('ContinuosDownload')
+       {
+          steps
+          {
+             git branch: 'main', url: 'https://github.com/sumanthintime/Jenkins.git'
+          }
+       }
+     
+       stage('ContinuosBuild')
+       {
+          steps
+          {
+            sh 'mvn package'
+          }
+       }
+      
+      
+    }
+    
+    post
+    {
+        success
+        {
+            sh 'scp /home/ubuntu/.jenkins/workspace/DeclarativePipeline/webapp/target/webapp.war ubuntu@172.31.81.177:/var/lib/tomcat9/webapps/testapp.war'
+        }
+        failure
+        {
+            mail bcc: '', body: 'Deployment failed please check  and reach out to middleware engineer', cc: '', from: '', replyTo: '', subject: 'Test of CICD ', to: 'mounika@intimestaffingsolutions@gmail.com'
+        }
+    }
+    
+}
