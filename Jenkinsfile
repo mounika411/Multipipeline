@@ -52,13 +52,5 @@ pipeline
              
           }
         }
-        stage('ContinuosDelivery')
-       {
-          steps
-          {
-             sh 'scp /home/ubuntu/.jenkins/workspace/DeclarativePipeline/webapp/target/webapp.war ubuntu@172.31.80.15:/var/lib/tomcat9/webapps/testapp.war'
-             
-          }
-        }
     }
 }
